@@ -1,0 +1,50 @@
+Entrez is a information retrieval system accessible using Bio module and Entrez function inside the bio module.
+databaeses accesible using Entrez are:
+	using following codes:
+		from Bio import Entrez
+		Entrez.email = 'provide_some_email@.com'
+		handle = Entrez.einfo()
+		result = handle.read()
+		print result
+the output will be a xml file containing all database name accessible using Entrez
+		result is a dictionary where key is 'DBlist'
+		values are list of database name
+
+Goal:
+	Use pubmed to access medline data. pubmed is a tool that can search through medline  data to find the relevant texts for us. text searching is an expensive process. Medline is a huge database searching through medline to retrive relevant datas are time consuming. pubmed can simplified the process.
+
+	there are two steps to retrieve data from medline using pubmed using Entrez module:
+		step 1: using esearch() function to retrive the list of related document IDs. parameters to this function are:
+		db = 'databasename'
+		retmax = 'max retrived record'
+		retmode = 'xml/text'
+		term='text to search'
+
+		this will return list of record IDs. 
+		
+		step 2: using efetch() this will use the list of record IDs to retrieve the list of relevant text documents.
+		parameters to this function are:
+		db = 'database name'
+		retmode = 'xml/text'
+		id = 'list of ids'
+
+In data_collection.py file contains all the required function to collect data from medline using pubmed.
+		
+	1. search_query() has two parameters 
+		param1: text query to search for instance side effect names.
+		param2: logging module to store logging information such as debug information.
+		return list of ids
+	2. fecth_details() function has two parameters
+		param1: list of ids from search_query() 
+		param2: logging module to store any runtime anomally in the programe.
+		returns list of relevant text documents publications
+
+	3. main_data_collector()	
+		it has three parameters.
+		param1: search_text, list of text need to be searched
+		param2 and param3 are non essential
+		returns all related documents	
+	 	now the returned record are in json format. print some of the retrieved record and print it to see how you can access the article title and abstract text.
+		Missing data need to be handled somehow.
+	4. main_ops()
+		main entry function for the module. it will try to distribute the query data uniformly among the nodes using python MPI module.		
