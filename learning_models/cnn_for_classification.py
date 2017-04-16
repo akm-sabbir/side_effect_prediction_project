@@ -1,4 +1,4 @@
-mport json
+import json
 import glob
 import xml.etree.ElementTree as ET
 import re
